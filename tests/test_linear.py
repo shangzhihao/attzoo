@@ -88,7 +88,7 @@ def test_linear_forward_attention_weights_properties() -> None:
     attention.eval()  # Disable dropout for deterministic behavior
 
     x = torch.randn(batch_size, seq_len, d_model)
-    output, attention_weights = attention(x)
+    _output, attention_weights = attention(x)
 
     # Attention weights should be non-negative (approximately)
     assert (attention_weights >= -1e-6).all()

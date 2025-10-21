@@ -9,7 +9,11 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = []
+dev = [
+    "mypy>=1.18.2",
+    "pytest>=8.4.2",
+    "ruff>=0.14.1",
+]
 
 [build-system]
 requires = ["setuptools>=69", "wheel"]

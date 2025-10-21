@@ -124,7 +124,7 @@ def test_alibi_forward_with_causal_mask() -> None:
     # Create causal mask (lower triangular)
     mask = torch.tril(torch.ones(seq_len, seq_len)).bool()
 
-    output, attention_weights = attention(x, mask=mask)
+    _output, attention_weights = attention(x, mask=mask)
 
     # Check that upper triangular attention weights are masked for all heads
     upper_triangular = torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()
@@ -146,7 +146,7 @@ def test_alibi_forward_with_batch_mask() -> None:
     mask[0, :, -1] = False  # Mask last position for first batch item
     mask[1, :, :2] = False  # Mask first two positions for second batch item
 
-    output, attention_weights = attention(x, mask=mask)
+    _output, attention_weights = attention(x, mask=mask)
 
     # Check masking for all heads
     for head in range(num_heads):
@@ -182,7 +182,7 @@ def test_alibi_forward_position_bias_effect() -> None:
 
     # Create input where all positions have the same content
     x = torch.ones(1, seq_len, d_model)
-    output, attention_weights = attention(x)
+    _output, attention_weights = attention(x)
 
     # For identical inputs, attention should still vary by position due to ALiBi bias
     # Check that attention weights are different for different positions
@@ -234,5 +234,5 @@ def test_alibi_forward_temperature_scaling() -> None:
 def test_alibi_forward_initialization_errors() -> None:
     """Test ALiBi attention initialization error conditions."""
     # d_model not divisible by num_heads
-    with pytest.raises(ValueError, match="d_model .* must be divisible by num_heads"):
+    with pytest.raises(ValueError, match="d_model must be divisible by num_heads"):
         AlibiSelfAttention(d_model=31, num_heads=4)

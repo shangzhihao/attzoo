@@ -63,7 +63,7 @@ def test_mhsa_forward_with_causal_mask() -> None:
     # Create causal mask (lower triangular)
     mask = torch.tril(torch.ones(seq_len, seq_len)).bool()
 
-    output, attention_weights = attention(x, mask=mask)
+    _output, attention_weights = attention(x, mask=mask)
 
     # Check that upper triangular attention weights are masked for all heads
     upper_triangular = torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()
@@ -85,7 +85,7 @@ def test_mhsa_forward_with_batch_mask() -> None:
     mask[0, :, -1] = False  # Mask last position for first batch item
     mask[1, :, :2] = False  # Mask first two positions for second batch item
 
-    output, attention_weights = attention(x, mask=mask)
+    _output, attention_weights = attention(x, mask=mask)
 
     # Check masking for all heads
     for head in range(num_heads):
@@ -105,7 +105,7 @@ def test_mhsa_forward_attention_weights_per_head() -> None:
     attention.eval()  # Disable dropout for deterministic behavior
 
     x = torch.randn(batch_size, seq_len, d_model)
-    output, attention_weights = attention(x)
+    _output, attention_weights = attention(x)
 
     # Check properties for each head
     for head in range(num_heads):
@@ -130,7 +130,7 @@ def test_mhsa_forward_head_independence() -> None:
     attention = MultiHeadSelfAttention(d_model=d_model, num_heads=num_heads)
 
     x = torch.randn(batch_size, seq_len, d_model)
-    output, attention_weights = attention(x)
+    _output, attention_weights = attention(x)
 
     # Check that not all heads have identical attention patterns
     head_patterns = attention_weights[0]  # Shape: [num_heads, seq_len, seq_len]
@@ -222,7 +222,7 @@ def test_mhsa_forward_mask_broadcasting() -> None:
     # Create 2D mask that should be broadcasted
     mask = torch.tril(torch.ones(seq_len, seq_len)).bool()
 
-    output, attention_weights = attention(x, mask=mask)
+    _output, attention_weights = attention(x, mask=mask)
 
     # Check that mask is applied to all heads and batches
     upper_triangular = torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()
@@ -289,7 +289,7 @@ def test_mhsa_forward_stored_attention_weights() -> None:
     attention.eval()
 
     x = torch.randn(batch_size, seq_len, d_model)
-    output, attention_weights = attention(x)
+    _output, attention_weights = attention(x)
 
     # Get stored attention weights (should be averaged across heads)
     stored_weights = attention.get_attention_weights()

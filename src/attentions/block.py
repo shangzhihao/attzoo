@@ -256,7 +256,7 @@ class BlockSelfAttention(BaseSelfAttention):
             - output: [batch_size, seq_len, d_model]
             - attention_weights: [batch_size, num_heads, seq_len, seq_len]
         """
-        batch_size, seq_len, _ = x.shape
+        _batch_size, seq_len, _ = x.shape
 
         # Handle case where sequence is shorter than block size
         if seq_len <= self.block_size:

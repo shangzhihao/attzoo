@@ -74,7 +74,7 @@ class MultiHeadSelfAttention(BaseSelfAttention):
             - output: [batch_size, seq_len, d_model]
             - attention_weights: [batch_size, num_heads, seq_len, seq_len]
         """
-        batch_size, seq_len, d_model = x.shape
+        batch_size, _seq_len, _d_model = x.shape
 
         # Apply linear projections
         q = self.w_q(x)  # [batch_size, seq_len, d_model]

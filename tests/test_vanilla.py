@@ -44,7 +44,7 @@ def test_vanilla_forward_with_causal_mask() -> None:
     # Create causal mask (lower triangular)
     mask = torch.tril(torch.ones(seq_len, seq_len)).bool()
 
-    output, attention_weights = attention(x, mask=mask)
+    _output, attention_weights = attention(x, mask=mask)
 
     # Check that upper triangular attention weights are masked (near zero)
     upper_triangular = torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()
@@ -63,7 +63,7 @@ def test_vanilla_forward_with_padding_mask() -> None:
     mask = torch.ones(batch_size, seq_len, seq_len).bool()
     mask[:, :, -2:] = False  # Mask out last 2 positions
 
-    output, attention_weights = attention(x, mask=mask)
+    _output, attention_weights = attention(x, mask=mask)
 
     # Check that masked positions have very small attention weights
     assert (attention_weights[:, :, -2:] < EPSILON).all()
@@ -76,7 +76,7 @@ def test_vanilla_forward_attention_weights_properties() -> None:
     attention.eval()  # Disable dropout for deterministic behavior
 
     x = torch.randn(batch_size, seq_len, d_model)
-    output, attention_weights = attention(x)
+    _output, attention_weights = attention(x)
 
     # Attention weights should sum to 1 along last dimension
     assert torch.allclose(

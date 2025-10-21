@@ -88,7 +88,7 @@ class LocalSelfAttention(BaseSelfAttention):
         Returns:
             Tuple of (output, attention_weights)
         """
-        batch_size, num_heads, seq_len, d_head = query.shape
+        batch_size, num_heads, seq_len, _d_head = query.shape
 
         # Create local attention mask
         local_mask = create_local_mask(seq_len, self.window_size, query.device)

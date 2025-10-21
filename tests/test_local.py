@@ -53,7 +53,7 @@ def test_local_forward_windowing_pattern() -> None:
     attention.eval()  # Disable dropout for deterministic behavior
 
     x = torch.randn(batch_size, seq_len, d_model)
-    output, attention_weights = attention(x)
+    _output, attention_weights = attention(x)
 
     # Check local windowing pattern for each head
     half_window = window_size // 2
@@ -120,7 +120,7 @@ def test_local_forward_with_causal_mask() -> None:
     # Create causal mask
     causal_mask = torch.tril(torch.ones(seq_len, seq_len)).bool()
 
-    output, attention_weights = attention(x, mask=causal_mask)
+    _output, attention_weights = attention(x, mask=causal_mask)
 
     # Check that both local and causal constraints are applied
     half_window = window_size // 2
@@ -153,7 +153,7 @@ def test_local_forward_with_padding_mask() -> None:
     padding_mask = torch.ones(batch_size, seq_len, seq_len).bool()
     padding_mask[:, :, -1] = False  # Mask out last position
 
-    output, attention_weights = attention(x, mask=padding_mask)
+    _output, attention_weights = attention(x, mask=padding_mask)
 
     # Check that padded positions are masked for all heads
     for head in range(num_heads):
@@ -170,7 +170,7 @@ def test_local_forward_window_larger_than_sequence() -> None:
     attention.eval()
 
     x = torch.randn(batch_size, seq_len, d_model)
-    output, attention_weights = attention(x)
+    _output, attention_weights = attention(x)
 
     # Should behave like full attention when window >= sequence length
     for head in range(num_heads):
@@ -193,7 +193,7 @@ def test_local_forward_single_element_window() -> None:
     attention.eval()
 
     x = torch.randn(batch_size, seq_len, d_model)
-    output, attention_weights = attention(x)
+    _output, attention_weights = attention(x)
 
     # Each position should only attend to itself
     for head in range(num_heads):
@@ -320,7 +320,7 @@ def test_local_forward_stored_attention_weights() -> None:
     attention.eval()
 
     x = torch.randn(batch_size, seq_len, d_model)
-    output, attention_weights = attention(x)
+    _output, attention_weights = attention(x)
 
     # Get stored attention weights (should be averaged across heads)
     stored_weights = attention.get_attention_weights()
@@ -341,7 +341,7 @@ def test_local_forward_attention_sparsity() -> None:
     attention.eval()
 
     x = torch.randn(batch_size, seq_len, d_model)
-    output, attention_weights = attention(x)
+    _output, attention_weights = attention(x)
 
     # Count total non-zero attention weights
     total_elements = batch_size * num_heads * seq_len * seq_len
@@ -367,7 +367,7 @@ def test_local_forward_complexity_reduction() -> None:
         attention.eval()
 
         x = torch.randn(1, seq_len, d_model)
-        output, attention_weights = attention(x)
+        _output, attention_weights = attention(x)
 
         # Count effective attention computations per position
         half_window = window_size // 2

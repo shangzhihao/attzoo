@@ -29,7 +29,7 @@ from attentions.mhsa import MultiHeadSelfAttention
 from attentions.vanilla import VanillaSelfAttention
 
 
-__version__ = "0.1.0"
+__version__ = "0.1.01"
 
 __all__ = (
     "AlibiSelfAttention",

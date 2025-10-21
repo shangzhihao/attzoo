@@ -85,7 +85,7 @@ class GroupedSelfAttention(BaseSelfAttention):
         Returns:
             Reshaped tensor [batch_size, num_query_heads, seq_len, d_head]
         """
-        batch_size, seq_len, d_model = q.shape
+        batch_size, seq_len, _d_model = q.shape
         # Reshape to [batch_size, seq_len, num_query_heads, d_head]
         q = q.view(batch_size, seq_len, self.num_query_heads, self.d_head)
         # Transpose to [batch_size, num_query_heads, seq_len, d_head]
@@ -134,7 +134,7 @@ class GroupedSelfAttention(BaseSelfAttention):
             - output: [batch_size, seq_len, d_model]
             - attention_weights: [batch_size, num_query_heads, seq_len, seq_len]
         """
-        batch_size, seq_len, _ = x.shape
+        batch_size, _seq_len, _ = x.shape
 
         # Apply linear projections
         q = self.w_q(x)  # [batch_size, seq_len, d_model]
