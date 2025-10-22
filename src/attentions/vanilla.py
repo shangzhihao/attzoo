@@ -48,11 +48,10 @@ class VanillaSelfAttention(BaseSelfAttention):
         Args:
             x: Input tensor [batch_size, seq_len, input_dim]
             mask: Optional attention mask
-            return_attention: Whether to return attention weights
-            **kwargs: Additional arguments
+            **kwargs: Additional keyword arguments for API compatibility
 
         Returns:
-            Tuple of (output, attention_weights) where output is [batch_size, seq_len, d_model]
+            Tuple[torch.Tensor, torch.Tensor]: Output tensor and attention weights.
         """
         # Apply linear projections
         q = self.w_q(x)

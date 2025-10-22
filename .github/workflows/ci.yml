@@ -36,3 +36,6 @@ jobs:
 
       - name: Pytest
         run: uv run pytest
+
+      - name: Build documentation
+        run: uv run -m mkdocs build

@@ -66,6 +66,24 @@ print(out.shape)     # [4, 512, 128]
 print(weights.shape) # [4, 8, 512, 512]
 ```
 
+## 📝 Documentation
+
+- Browse the generated docs locally:
+
+  ```bash
+  uv run -m mkdocs serve
+  ```
+
+  The site is served at `http://127.0.0.1:8000/` with hot reload enabled.
+
+- Produce a production build:
+
+  ```bash
+  uv run -m mkdocs build
+  ```
+
+  Static assets are written to `site/` and published automatically by CI as part of the GitHub workflow.
+
 ## 📊 Performance Comparison
 
 | Mechanism | Time Complexity | Memory Complexity | Best Use Case |

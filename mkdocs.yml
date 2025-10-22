@@ -1,0 +1,28 @@
+site_name: Attentions
+site_description: Attention mechanisms toolkit documentation.
+site_author: Attentions Developers
+
+theme:
+  name: material
+
+nav:
+  - Overview: index.md
+  - API Reference: reference.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - src
+          options:
+            show_signature_annotations: true
+            separate_signature: true
+
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
