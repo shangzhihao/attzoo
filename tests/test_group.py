@@ -46,13 +46,15 @@ def test_grouped_self_attention_initialization_errors() -> None:
     """Test GroupedSelfAttention initialization error cases."""
     # Test d_model not divisible by num_query_heads
     with pytest.raises(
-        ValueError, match="d_model must be divisible by num_query_heads"
+        ValueError,
+        match=r"d_model \(\d+\) must be divisible by num_query_heads \(\d+\)",
     ):
         GroupedSelfAttention(d_model=64, num_query_heads=7, num_kv_heads=1)
 
     # Test num_query_heads not divisible by num_kv_heads
     with pytest.raises(
-        ValueError, match="num_query_heads must be divisible by num_kv_heads"
+        ValueError,
+        match=r"num_query_heads \(\d+\) must be divisible by num_kv_heads \(\d+\)",
     ):
         GroupedSelfAttention(d_model=64, num_query_heads=8, num_kv_heads=3)
 

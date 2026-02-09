@@ -10,7 +10,9 @@ from attentions.base import (
     scaled_dot_product_attention,
 )
 from attentions.block import BlockSelfAttention
+from attentions.combined import CombinedAttention
 from attentions.dilation import DilatedSelfAttention
+from attentions.gated import GatedSelfAttention
 from attentions.group import GroupedSelfAttention
 from attentions.linear import LinearSelfAttention
 from attentions.local import LocalSelfAttention
@@ -35,7 +37,9 @@ __all__ = (
     "AlibiSelfAttention",
     "BaseSelfAttention",
     "BlockSelfAttention",
+    "CombinedAttention",
     "DilatedSelfAttention",
+    "GatedSelfAttention",
     "GroupedSelfAttention",
     "LSHSelfAttention",
     "LinearSelfAttention",

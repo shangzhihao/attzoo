@@ -234,5 +234,7 @@ def test_alibi_forward_temperature_scaling() -> None:
 def test_alibi_forward_initialization_errors() -> None:
     """Test ALiBi attention initialization error conditions."""
     # d_model not divisible by num_heads
-    with pytest.raises(ValueError, match="d_model must be divisible by num_heads"):
+    with pytest.raises(
+        ValueError, match=r"d_model \(\d+\) must be divisible by num_heads \(\d+\)"
+    ):
         AlibiSelfAttention(d_model=31, num_heads=4)
