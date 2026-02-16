@@ -1,24 +1,24 @@
-"""Attentions: A PyTorch library for attention mechanisms.
+"""Attzoo: A PyTorch library for attention mechanisms.
 
 This library provides clean, efficient implementations of various self-attention
 mechanisms used in transformer models and deep learning architectures.
 """
 
-from attentions.alibi import AlibiSelfAttention
-from attentions.base import (
+from attzoo.alibi import AlibiSelfAttention
+from attzoo.base import (
     BaseSelfAttention,
     scaled_dot_product_attention,
 )
-from attentions.block import BlockSelfAttention
-from attentions.combined import CombinedAttention
-from attentions.dilation import DilatedSelfAttention
-from attentions.gated import GatedSelfAttention
-from attentions.group import GroupedSelfAttention
-from attentions.linear import LinearSelfAttention
-from attentions.local import LocalSelfAttention
-from attentions.longformer import LongformerSelfAttention
-from attentions.lsh import LSHSelfAttention
-from attentions.masks import (
+from attzoo.block import BlockSelfAttention
+from attzoo.combined import CombinedAttention
+from attzoo.dilation import DilatedSelfAttention
+from attzoo.gated import GatedSelfAttention
+from attzoo.group import GroupedSelfAttention
+from attzoo.linear import LinearSelfAttention
+from attzoo.local import LocalSelfAttention
+from attzoo.longformer import LongformerSelfAttention
+from attzoo.lsh import LSHSelfAttention
+from attzoo.masks import (
     combine_masks,
     create_block_mask,
     create_causal_mask,
@@ -27,11 +27,11 @@ from attentions.masks import (
     create_padding_mask,
     expand_mask_for_heads,
 )
-from attentions.mhsa import MultiHeadSelfAttention
-from attentions.vanilla import VanillaSelfAttention
+from attzoo.mhsa import MultiHeadSelfAttention
+from attzoo.vanilla import VanillaSelfAttention
 
 
-__version__ = "0.1.01"
+__version__ = "0.1.0"
 
 __all__ = (
     "AlibiSelfAttention",

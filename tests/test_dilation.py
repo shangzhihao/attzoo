@@ -1,7 +1,7 @@
 import torch
 
-from attentions.dilation import DilatedSelfAttention
-from attentions.masks import create_dilated_mask
+from attzoo.dilation import DilatedSelfAttention
+from attzoo.masks import create_dilated_mask
 
 
 def test_dilated_self_attention_forward_shapes() -> None:

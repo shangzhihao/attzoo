@@ -5,7 +5,7 @@ from typing import cast
 import pytest
 import torch
 
-from attentions.alibi import AlibiSelfAttention
+from attzoo.alibi import AlibiSelfAttention
 
 
 def test_alibi_forward_basic_shapes() -> None:

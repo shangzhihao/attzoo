@@ -2,7 +2,7 @@
 
 import torch
 
-from attentions.linear import LinearSelfAttention
+from attzoo.linear import LinearSelfAttention
 
 
 def test_linear_forward_basic_shapes() -> None:

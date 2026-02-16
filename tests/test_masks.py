@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from attentions.masks import (
+from attzoo.masks import (
     combine_masks,
     create_block_mask,
     create_causal_mask,

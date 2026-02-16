@@ -2,7 +2,7 @@
 
 import torch
 
-from attentions.vanilla import VanillaSelfAttention
+from attzoo.vanilla import VanillaSelfAttention
 from tests import EPSILON
 
 

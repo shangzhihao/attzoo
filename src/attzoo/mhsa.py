@@ -2,8 +2,8 @@ from typing import Any
 
 import torch
 
-from attentions.base import BaseSelfAttention, scaled_dot_product_attention
-from attentions.utils import reshape_for_attention, reshape_from_attention
+from attzoo.base import BaseSelfAttention, scaled_dot_product_attention
+from attzoo.utils import reshape_for_attention, reshape_from_attention
 
 
 MASK_RANK_BATCH = 3

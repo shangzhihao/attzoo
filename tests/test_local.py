@@ -2,7 +2,7 @@
 
 import torch
 
-from attentions.local import LocalSelfAttention
+from attzoo.local import LocalSelfAttention
 from tests import EPSILON
 
 

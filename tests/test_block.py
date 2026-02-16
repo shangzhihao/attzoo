@@ -2,7 +2,7 @@
 
 import torch
 
-from attentions.block import BlockSelfAttention
+from attzoo.block import BlockSelfAttention
 
 
 def test_block_forward_basic_shapes() -> None:

@@ -1,6 +1,6 @@
 """Public package export tests."""
 
-from attentions import CombinedAttention, GatedSelfAttention
+from attzoo import CombinedAttention, GatedSelfAttention
 
 
 def test_package_exports_include_combined_and_gated() -> None:

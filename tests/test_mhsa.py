@@ -2,7 +2,7 @@
 
 import torch
 
-from attentions.mhsa import MultiHeadSelfAttention
+from attzoo.mhsa import MultiHeadSelfAttention
 from tests import EPSILON
 
 

@@ -1,6 +1,6 @@
-site_name: Attentions
+site_name: Attzoo
 site_description: Attention mechanisms toolkit documentation.
-site_author: Attentions Developers
+site_author: Attzoo Developers
 
 theme:
   name: material

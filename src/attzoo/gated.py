@@ -3,13 +3,13 @@ from typing import Any
 import torch
 import torch.nn as nn
 
-from attentions.base import BaseSelfAttention
+from attzoo.base import BaseSelfAttention
 
 
 MULTI_HEAD_RANK = 4
 
 
-def _make_att_weight(
+def _make_gate(
     input_dim: int,
     *,
     gate_hidden: int | None,
@@ -30,20 +30,18 @@ def _make_att_weight(
     )
 
 
-class CombinedAttention(nn.Module):
-    """Blend two self-attention modules with a learned gate.
+class GatedSelfAttention(nn.Module):
+    """Residual-gated self-attention (highway-style gate).
 
-    y = g ⊙ AttnA(x) + (1 - g) ⊙ AttnB(x), with g = sigmoid(G(x)).
+    x̂ = g ⊙ Attn(x) + (1 - g) ⊙ Proj(x), with g = sigmoid(G(x)).
 
-    Stores head-averaged, gate-weighted attention weights for inspection via
-    ``get_attention_weights()``. Returns raw weights from ``attn_a`` for API
-    compatibility.
+    If the input dimension differs from the attention's ``d_model``, an internal
+    projection aligns ``x`` to ``d_model`` before mixing.
     """
 
     def __init__(
         self,
-        attn_a: BaseSelfAttention,
-        attn_b: BaseSelfAttention,
+        attn: BaseSelfAttention,
         *,
         input_dim: int | None = None,
         gate_hidden: int | None = None,
@@ -51,42 +49,48 @@ class CombinedAttention(nn.Module):
         dropout: float = 0.0,
     ) -> None:
         super().__init__()
-        if attn_a.d_model != attn_b.d_model:
-            message = (
-                f"attn_a.d_model ({attn_a.d_model}) must equal "
-                f"attn_b.d_model ({attn_b.d_model})"
-            )
-            raise ValueError(message)
-        self.attn_a = attn_a
-        self.attn_b = attn_b
-        self.d_model = attn_a.d_model
-        self.input_dim = input_dim if input_dim is not None else self.d_model
-        self.gate = _make_att_weight(
+        self.attn = attn
+        self.d_model = attn.d_model
+        # Default to the attention's expected input dimension when available
+        self.input_dim = (
+            input_dim
+            if input_dim is not None
+            else getattr(attn, "input_dim", self.d_model)
+        )
+
+        # Projection for x to match d_model if needed
+        self.x_proj: nn.Module
+        if self.input_dim != self.d_model:
+            self.x_proj = nn.Linear(self.input_dim, self.d_model, bias=True)
+        else:
+            self.x_proj = nn.Identity()
+
+        # Per-token gate over the input features
+        self.gate = _make_gate(
             self.input_dim,
             gate_hidden=gate_hidden,
             gate_bias=gate_bias,
             dropout=dropout,
         )
+
         self.attention_weights: torch.Tensor | None = None
 
     def forward(
         self, x: torch.Tensor, mask: torch.Tensor | None = None, **kwargs: Any
     ) -> tuple[torch.Tensor, torch.Tensor]:
-        out_a, w_a = self.attn_a(x, mask=mask, **kwargs)
-        out_b, w_b = self.attn_b(x, mask=mask, **kwargs)
+        attn_out, attn_w = self.attn(x, mask=mask, **kwargs)  # [B, S, d_model], weights
+        gate = self.gate(x)  # [B, S, 1]
+        x_res = self.x_proj(x)  # [B, S, d_model]
 
-        g = self.gate(x)  # [B, S, 1]
-        output = g * out_a + (1.0 - g) * out_b
+        y = gate * attn_out + (1.0 - gate) * x_res
 
-        def _to_seq_weights(w: torch.Tensor) -> torch.Tensor:
-            return w.mean(dim=1) if w.dim() == MULTI_HEAD_RANK else w
+        # Store convenient head-averaged weights
+        if attn_w.dim() == MULTI_HEAD_RANK:
+            self.attention_weights = attn_w.mean(dim=1).detach()
+        else:
+            self.attention_weights = attn_w.detach()
 
-        w_a_seq = _to_seq_weights(w_a)
-        w_b_seq = _to_seq_weights(w_b)
-        blended_seq_weights = g * w_a_seq + (1.0 - g) * w_b_seq
-        self.attention_weights = blended_seq_weights.detach()
-
-        return output, w_a
+        return y, attn_w
 
     def get_attention_weights(self) -> torch.Tensor:
         if self.attention_weights is None:

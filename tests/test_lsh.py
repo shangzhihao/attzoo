@@ -3,7 +3,7 @@
 import pytest
 import torch
 
-from attentions.lsh import LSHSelfAttention
+from attzoo.lsh import LSHSelfAttention
 
 
 def test_lsh_forward_basic_shapes() -> None:

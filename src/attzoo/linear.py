@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as functional
 
-from attentions.base import BaseSelfAttention
+from attzoo.base import BaseSelfAttention
 
 
 MASK_RANK_VECTOR = 1

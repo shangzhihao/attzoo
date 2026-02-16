@@ -1,7 +1,7 @@
 import pytest
 import torch
 
-from attentions.group import GroupedSelfAttention
+from attzoo.group import GroupedSelfAttention
 
 
 def test_grouped_self_attention_initialization() -> None:

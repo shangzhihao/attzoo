@@ -1,6 +1,6 @@
 [project]
-name = "attentions"
-version = "0.1.01"
+name = "attzoo"
+version = "0.1.0"
 description = "Modern PyTorch library for attention mechanisms in transformer models"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -19,15 +19,8 @@ dev = [
 ]
 
 [build-system]
-requires = ["setuptools>=69", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["attentions*"]
-
-[tool.setuptools.package-dir]
-"" = "src"
+requires = ["uv_build>=0.9.27,<0.10.0"]
+build-backend = "uv_build"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -35,7 +28,7 @@ python_files = ["test_*.py", "*_test.py"]
 addopts = "-v --tb=short"
 
 [tool.mypy]
-packages = ["attentions"]
+packages = ["attzoo"]
 mypy_path = "src"
 # stricter settings
 check_untyped_defs = true

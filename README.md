@@ -1,4 +1,4 @@
-# Attentions 🔍
+# Attzoo 🔍
 
 A modern, extensible PyTorch library for attention mechanisms in transformer models and deep learning architectures. Designed for educational and research purposes with clean, well-documented, and modular code.
 
@@ -26,31 +26,41 @@ A modern, extensible PyTorch library for attention mechanisms in transformer mod
 
 ```bash
 # Install from source
-git clone https://github.com/yourusername/attentions.git
-cd attentions
-pip install -e .
+git clone https://github.com/yourusername/attzoo.git
+cd attzoo
+uv sync
 
 # For development
-pip install -e ".[dev]"
+uv sync --all-extras --dev
 ```
 
-### Install from TestPyPI
+### Install from PyPI
 
-You can try pre-releases from TestPyPI:
+Install the latest release from PyPI:
 
 ```bash
-pip install -i https://test.pypi.org/simple/ attentions
+uv add attzoo
+```
+
+### Publish to PyPI (Maintainers)
+
+```bash
+# Build distributions
+uv build
+
+# Upload to PyPI
+UV_PUBLISH_TOKEN=pypi-<your-token> uv publish
 ```
 
 Notes:
-- The extra index ensures dependencies like `torch` resolve from PyPI.
-- If you already installed a previous version, add `--upgrade`.
+- For a brand-new project on PyPI, use an account-scoped token for the first upload.
+- Bump `version` in `pyproject.toml` before every release.
 
 ### Basic Usage
 
 ```python
 import torch
-from attentions import MultiHeadSelfAttention
+from attzoo import MultiHeadSelfAttention
 
 # Initialize model and input
 d_model = 128

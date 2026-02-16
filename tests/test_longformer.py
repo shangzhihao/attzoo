@@ -2,7 +2,7 @@
 
 import torch
 
-from attentions.longformer import LongformerSelfAttention
+from attzoo.longformer import LongformerSelfAttention
 from tests import EPSILON
 
 

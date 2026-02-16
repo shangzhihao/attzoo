@@ -2,7 +2,7 @@ from typing import Any
 
 import torch
 
-from attentions.base import BaseSelfAttention, scaled_dot_product_attention
+from attzoo.base import BaseSelfAttention, scaled_dot_product_attention
 
 
 class VanillaSelfAttention(BaseSelfAttention):
